@@ -1,0 +1,29 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "rest api servis for organizer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ADiksIT/api-for-organzier.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "mongo",
+    "cpp"
+  ],
+  "author": "Anton Andrusenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ADiksIT/api-for-organzier/issues"
+  },
+  "homepage": "https://github.com/ADiksIT/api-for-organzier#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.25"
+  }
+}
