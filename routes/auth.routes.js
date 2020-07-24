@@ -13,11 +13,11 @@ router.post(
   async (req, res) => {
     try {
       const ers = validationResult(req);
-      console.log(req.body);
       if (!ers.isEmpty()) {
         return res.status(400).json({
           message: 'data is not corrected',
           errors: ers.array(),
+		  isCorrected: false,
         });
       }
       const { email, password } = req.body;
@@ -25,7 +25,7 @@ router.post(
       const candidate = await User.findOne({ email });
 
       if (candidate) {
-        return res.status(400).json({ message: 'user has been life' });
+        return res.status(400).json({ message: 'user has been life', isCorrected: false });
       }
 
       const hasPassword = await crypt.hash(password, 12);
@@ -33,9 +33,9 @@ router.post(
 
       await user.save();
 
-      res.status(201).json({ message: 'user has been created' });
+      res.status(201).json({ message: 'user has been created', isCorrected: false });
     } catch (e) {
-      res.status(500).json({ message: 'error' });
+      res.status(500).json({ message: 'error', isCorrected: false });
     }
   },
 );
@@ -50,21 +50,21 @@ router.post(
     try {
       const ers = validationResult(req);
       if (!ers.isEmpty()) {
-        return res.status(400).json('data is not corrected');
+        return res.status(400).json({ message: 'data is not corrected', isCorrected: false });
       }
 
       const { email, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ message: 'user is not defined' });
+        return res.status(400).json({ message: 'user is not defined', isCorrected: false });
       }
 
       const isMatch = await crypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ message: 'password is not corrected' });
+        return res.status(400).json({ message: 'password is not corrected', isCorrected: false });
       }
-
-      res.json({ user });
+	  
+      res.json({ user, isCorrected: true, message: 'login was successful' });
     } catch (e) {
       res.status(500).json({ message: 'vse propalo' });
     }
