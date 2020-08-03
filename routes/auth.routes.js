@@ -115,12 +115,6 @@ router.post(
 
       const todo = await Todo.findOne(user.todoes._id);
 
-      await todo[year].push({ date: '2021/01/09', text: 'дать толику пизду' });
-      await todo[2020].push({
-        date: '2021/01/09',
-        text: 'извинится перед толиком',
-      });
-
       await todo.save();
 
       res.json({
