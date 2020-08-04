@@ -1,43 +1,21 @@
 const { Router } = require('express');
 const User = require('../models/User');
-const { check, validationResult } = require('express-validator');
 const crypt = require('bcrypt');
 const Todo = require('../models/Todo');
+const { check, validationResult } = require('express-validator');
 const router = new Router();
-const fetch = require('node-fetch');
-
-const reqHolidays = async () => {
-  const year = new Date().getFullYear();
-  let holidays = [];
-  let arr = [];
-
-  await fetch(
-    `${process.env.FESTIO_URL}${process.env.FESTIO_API}${process.env.FESTIO_PARAM}${year}`,
-  )
-    .then((r) => r.json())
-    .then((r) => (holidays = r.holidays));
-  holidays.forEach((item) => {
-    if (item.public) {
-      arr.push({
-        name: item.name,
-        date: item.date,
-        important: true,
-        time: '00:00:00',
-      });
-    }
-  });
-  return arr;
-};
+const reqHolidays = require("../utils/holidays");
 
 router.post(
   '/register',
   [
-    check('email', 'email is not corected').isEmail(),
-    check('password', 'min length password 8 simbols').isLength({ min: 8 }),
+    check('email', 'email is not corrected').isEmail(),
+    check('password', 'min length password 8 symbols').isLength({ min: 8 }),
   ],
   async (req, res) => {
     try {
       const ers = validationResult(req);
+
       if (!ers.isEmpty()) {
         return res.status(400).json({
           message: 'data is not corrected',
@@ -52,15 +30,17 @@ router.post(
       if (candidate) {
         return res
           .status(400)
-          .json({ message: 'user has been life', isCorrected: false });
+          .json({ message: 'such user already exists', isCorrected: false });
       }
 
       const hasPassword = await crypt.hash(password, 12);
 
       const holidays = await reqHolidays();
 
+      const year = new Date().getFullYear();
+
       const todo = new Todo({
-        [2020]: holidays,
+        [year]: holidays,
       });
 
       const user = new User({
@@ -85,12 +65,13 @@ router.post(
 router.post(
   '/login',
   [
-    check('email', 'email is not corect').normalizeEmail().isEmail(),
-    check('password', 'password is not corected').exists(),
+    check('email', 'email is not correct').normalizeEmail().isEmail(),
+    check('password', 'password is not corrected').exists(),
   ],
   async (req, res) => {
     try {
       const ers = validationResult(req);
+
       if (!ers.isEmpty()) {
         return res
           .status(400)
@@ -107,6 +88,7 @@ router.post(
       }
 
       const isMatch = await crypt.compare(password, user.password);
+
       if (!isMatch) {
         return res
           .status(400)
