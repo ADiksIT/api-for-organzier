@@ -95,15 +95,10 @@ router.post(
           .json({ message: 'password is not corrected', isCorrected: false });
       }
 
-      const todo = await Todo.findOne(user.todoes._id);
-
-      await todo.save();
-
       res.json({
         user,
         isCorrected: true,
         message: 'login was successful',
-        todo,
       });
     } catch (e) {
       res.status(500).json({ message: e });

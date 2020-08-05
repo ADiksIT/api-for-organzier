@@ -11,6 +11,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/api/auth', require('./routes/auth.routes'));
+app.use('/api/todoes', require('./routes/todoes/todoes.routes'));
+app.use('/api/add', require('./routes/add/add.routes'));
 
 const start = async () => {
   try {

@@ -7,6 +7,7 @@ const todo = new Schema({
   time: { type: String, required: true },
   name: { type: String, required: true },
   important: { type: Boolean, required: true },
+  description: {type: String, required: false}
 });
 
 const schema = new Schema({

@@ -15,7 +15,8 @@ const reqHolidays = async () => {
         name: item.name,
         date: item.date,
         important: true,
-        time: '00:00:00',
+        description: 'Ukrainian national holidays',
+        time: '00:00',
       });
     }
   });
