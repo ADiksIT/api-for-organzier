@@ -13,6 +13,8 @@ app.use(bodyParser.json());
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/todoes', require('./routes/todoes/todoes.routes'));
 app.use('/api/add', require('./routes/add/add.routes'));
+app.use('/api/change', require('./routes/change/change.routes'));
+app.use('/api/delete', require('./routes/delete/delete.routes'));
 
 const start = async () => {
   try {

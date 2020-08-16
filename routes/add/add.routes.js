@@ -7,7 +7,8 @@ const {dateChecker, timeChecker} = require('../../utils/allUtils')
 router.post('/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const {date, time, name, important, description} = req.body;
+    const {date, time, name, important = false, description = ''} = req.body;
+
     const candidate = await Todo.findById(id);
 
     if (!candidate) {

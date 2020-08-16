@@ -29,7 +29,6 @@ router.get(
       try {
         const {id, month} = req.params;
         const candidate = await Todo.findById(id);
-
         if (!candidate) {
           return res.status(500).json({ message: 'candidate is not defined', candidate });
         }
