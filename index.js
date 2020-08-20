@@ -5,7 +5,9 @@ const app = express();
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
-const mongoURL = process.env.mongoURL;
+const mongoURL =
+	process.env.mongoURL ||
+	'mongodb+srv://admin:pupkin1234@cluster0.irbym.mongodb.net/app?retryWrites=true&w=majority';
 
 mongoose.connect(mongoURL, {
 	useNewUrlParser: true,
@@ -28,5 +30,5 @@ app.get('/', async (req, res) => {
 });
 
 app.listen(PORT, (req, res) =>
-	res.send(`Server has been started port ${process.env.PORT}`)
+	console.log(`Server has been started port ${process.env.PORT}`)
 );
