@@ -7,6 +7,12 @@ require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 const mongoURL = process.env.mongoURL;
 
+mongoose.connect(mongoURL, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useCreateIndex: true,
+});
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -21,20 +27,6 @@ app.get('/', async (req, res) => {
 	);
 });
 
-const start = async () => {
-	try {
-		await mongoose.connect(mongoURL, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			useCreateIndex: true,
-		});
-		app.listen(PORT, () =>
-			console.log(`Server has been started port ${process.env.PORT}`)
-		);
-	} catch (e) {
-		console.log('Error: ', e.message);
-		process.exit(1);
-	}
-};
-
-start();
+app.listen(PORT, (req, res) =>
+	res.send(`Server has been started port ${process.env.PORT}`)
+);
